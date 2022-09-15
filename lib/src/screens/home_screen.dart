@@ -3,70 +3,6 @@ part of 'screens.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  //_buildHeaderText
-  //headerText
-  //HeaderText
-
-  Widget _buildHeaderText() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('MyIFA'),
-        Text('Impresive Financial Assistant'),
-      ],
-    );
-  }
-
-  Widget _buildDescriptionText() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Mencatat Keuangan Lebih Mudah!'),
-        Text('Untuk financial planning kamu apa pun tujuanmu'),
-      ],
-    );
-  }
-
-  Widget _buildImage() {
-    return Image.network(
-        'https://www.kindpng.com/picc/m/355-3557482_flutter-logo-png-transparent-png.png');
-  }
-
-  Widget _buildButton() {
-    return Column(
-      children: [
-        //Buat Button disini
-        ElevatedButton(
-          child: Text('Elevated Button'),
-          style: ElevatedButton.styleFrom(
-            primary: Colors.green,
-          ),
-          onPressed: () {},
-        ),
-        SizedBox(
-          height: 16,
-        ),
-        //Buat Text Button disini
-        TextButton(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.hovered))
-                    return Colors.blue.withOpacity(0.04);
-                  if (states.contains(MaterialState.focused) ||
-                      states.contains(MaterialState.pressed))
-                    return Colors.blue.withOpacity(0.12);
-                  return null; // Defer to the widget's default.
-                },
-              ),
-            ),
-            onPressed: () {},
-            child: Text('TextButton'))
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,13 +11,44 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          _buildHeaderText(),
-          SizedBox(height: 24),
-          _buildDescriptionText(),
-          SizedBox(height: 24),
-          _buildImage(),
-          SizedBox(height: 24),
-          _buildButton()
+          //TODO Baris Pertama
+          Row(
+            children: [
+              Image.network(
+                "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+                width: 64,
+                height: 64,
+                fit: BoxFit.cover,
+              ),
+              Image.network(
+                "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+                width: 64,
+                height: 64,
+                fit: BoxFit.cover,
+              ),
+              Image.network(
+                "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+                width: 64,
+                height: 64,
+                fit: BoxFit.cover,
+              ),
+              Image.network(
+                "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+                width: 64,
+                height: 64,
+                fit: BoxFit.cover,
+              ),
+              Image.network(
+                "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+                width: 64,
+                height: 64,
+                fit: BoxFit.cover,
+              ),
+            ],
+          )
+          //TODO Baris Kedua
+          //TODO Baris Ketiga
+          //TODO Baris Keempat
         ],
       ),
     ));
