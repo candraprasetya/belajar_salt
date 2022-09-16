@@ -36,6 +36,25 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildTextField(Size size) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        children: [
+          TextField(
+            decoration: InputDecoration(hintText: "Username"),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          TextField(
+            decoration: InputDecoration(hintText: "Password"),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //variable size
@@ -48,10 +67,11 @@ class LoginScreen extends StatelessWidget {
         children: [
           //TODO Text hello dan welcome back
           _buildHeaderText(size),
-          //TODO Textfield untuk username dan password
           SizedBox(
-            height: 24,
+            height: 64,
           ),
+          //TODO Textfield untuk username dan password
+          _buildTextField(size),
           //TODO text recovery password
 
           //TODO Button Sign In
