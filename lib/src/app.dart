@@ -8,7 +8,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Belajar Dengan SALT',
-      home: MenuScreen(),
+      home: LoginScreen(),
     );
   }
 }
