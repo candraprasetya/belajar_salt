@@ -45,11 +45,11 @@ class LoginScreen extends StatelessWidget {
             decoration: InputDecoration(hintText: "Username"),
           ),
           SizedBox(
-            height: 16,
+            height: size.height * 0.01,
           ),
           TextField(
             decoration: InputDecoration(hintText: "Password"),
-          )
+          ),
         ],
       ),
     );
