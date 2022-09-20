@@ -14,6 +14,26 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             //TODO Baris Pertama
+            GestureDetector(
+                onTap: () {
+                  print('Hallo SALT');
+                },
+                child: Container(
+                  height: 80,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Lottie.asset('assets/animations/button.json'),
+                      Text(
+                        'Dapatkan Hadiahmu Sekarang',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                )),
             Container(
               width: 200,
               height: 200,
