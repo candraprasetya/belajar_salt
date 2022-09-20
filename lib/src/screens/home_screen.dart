@@ -5,6 +5,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> data = ['Tahu', 'Bulat', 'Digoreng'];
+
     return Scaffold(
         body: SafeArea(
       child: Padding(
@@ -14,6 +16,12 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             //TODO Baris Pertama
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: data.length,
+              itemBuilder: (context, index) => Text(data[index]),
+            ),
+
             GestureDetector(
                 onTap: () {
                   print('Hallo SALT');
