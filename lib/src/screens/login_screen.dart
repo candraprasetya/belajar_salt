@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
                 color: Colors.black54,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -75,6 +75,12 @@ class LoginScreen extends StatelessWidget {
           //TODO text recovery password
 
           //TODO Button Sign In
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ListScreen()));
+              },
+              child: Text('Move to list'))
 
           //TODO Text continue with
 
