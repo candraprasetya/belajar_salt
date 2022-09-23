@@ -50,10 +50,9 @@ class GridProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 2,
-      children: contacts
-          .map((e) => Image.network(
-                e.imageUrl,
-                fit: BoxFit.cover,
+      children: products
+          .map((e) => ProductWidget(
+                product: e,
               ))
           .toList(),
     );
