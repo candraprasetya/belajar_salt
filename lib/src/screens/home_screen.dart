@@ -1,12 +1,21 @@
 part of 'screens.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final c = Get.put(LoginController());
+
+  Color color = Colors.red;
+  int count = 0;
+  bool isLoginProcessing = false;
 
   @override
   Widget build(BuildContext context) {
-    List<String> data = ['Tahu', 'Bulat', 'Digoreng'];
-
     return Scaffold(
         body: SafeArea(
       child: Padding(
@@ -16,111 +25,45 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             //TODO Baris Pertama
+            Text('Hallo $count'),
             ListView.builder(
               shrinkWrap: true,
-              itemCount: data.length,
-              itemBuilder: (context, index) => Text(data[index]),
+              itemCount: c.data.length,
+              itemBuilder: (context, index) => Text(c.data[index]),
             ),
 
             GestureDetector(
-                onTap: () {
-                  print('Hallo SALT');
-                },
-                child: Container(
-                  height: 80,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Lottie.asset('assets/animations/button.json'),
-                      Text(
-                        'Dapatkan Hadiahmu Sekarang',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                )),
-            Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                setState(() {
+                  count = Random().nextInt(800000000);
+                });
+              },
+              child: Container(
+                height: 80,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Lottie.asset('assets/animations/button.json'),
+                    Text(
+                      'Dapatkan Hadiahmu Sekarang',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-              child: Image.network(
-                'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-1024.png',
-                height: 24,
-                width: 24,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100))),
-              child: Image.asset(
-                'assets/images/logo_google.png',
-                height: 24,
-                width: 24,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(FontAwesomeIcons.google),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Image.network(
-                    "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-                    height: 64,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Expanded(
-                  child: Image.network(
-                    "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-                    height: 64,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Expanded(
-                  child: Image.network(
-                    "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-                    height: 64,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            ),
-            //TODO Baris Kedua
-            Image.network(
-              "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-              width: 64,
-              height: 64,
-              fit: BoxFit.cover,
-            ),
-            //TODO Baris Ketiga
-            Image.network(
-              "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-              width: 64,
-              height: 64,
-              fit: BoxFit.cover,
-            ),
-            //TODO Baris Keempat
-            Image.network(
-              "https://images.unsplash.com/photo-1661961110144-12ac85918e40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-              width: 64,
-              height: 64,
-              fit: BoxFit.cover,
+
+            ButtonWidget(
+              caption: 'Klik Aku dong',
+              isLoading: isLoginProcessing,
+              onPressed: () {
+                setState(() {
+                  isLoginProcessing = true;
+                });
+              },
             ),
           ],
         ),
