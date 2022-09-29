@@ -48,7 +48,16 @@ class _LoginScreenState extends State<LoginScreen> {
               });
               // Durasi, Function
               Future.delayed(const Duration(milliseconds: 3000), () {
-                if (usernameController.text.isEmpty) {
+                if (usernameController.text == 'candra') {
+                  setState(() {
+                    isLoginProcessing = false;
+                  });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ListScreen(),
+                      ));
+                } else {
                   setState(() {
                     isLoginProcessing = false;
                   });
@@ -59,17 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(color: Colors.red),
                     ),
                     backgroundColor: Colors.red[100],
-                  ));
-                } else {
-                  setState(() {
-                    isLoginProcessing = false;
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                      "Login Sukses!",
-                      style: TextStyle(color: Colors.green),
-                    ),
-                    backgroundColor: Colors.green[100],
                   ));
                 }
               });
