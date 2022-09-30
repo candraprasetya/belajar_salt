@@ -8,13 +8,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+
   @override
   void initState() {
     Future.delayed(Duration(milliseconds: 2000), () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      checkLogin();
     });
     super.initState();
+  }
+
+  Future<void> checkLogin() async {
+    final SharedPreferences storage = await prefs;
+    if (storage.getBool('pernah_login') == true) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ListScreen()));
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    }
   }
 
   @override

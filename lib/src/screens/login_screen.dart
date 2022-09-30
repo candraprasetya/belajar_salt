@@ -11,6 +11,7 @@ class _LoginScreenState extends State<LoginScreen> {
   //Menambahkan 2 TextEditingController (Email dan Password)
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   //Tambahkan 1 boolean untuk login proses
   bool isLoginProcessing = false;
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'Login',
             style: TextStyle(
                 color: Colors.black87,
@@ -49,7 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
           _buildTextField('Password', passController, isPassword: true),
           const SizedBox(height: 24),
           ButtonWidget(
-            onPressed: () {
+            onPressed: () async {
+              //Untuk init si storage
+              final SharedPreferences srorage = await prefs;
+
               setState(() {
                 isLoginProcessing = true;
               });
@@ -57,9 +61,17 @@ class _LoginScreenState extends State<LoginScreen> {
               Future.delayed(const Duration(milliseconds: 3000), () {
                 //Jika emailnya adalah nama@gmail.com dan passwordnya 12345678
                 //Maka diarahkan ke ListScreen
-                if (emailController.text == "email kamu" &&
-                    passController.text == 'password kamu') {
+                if (emailController.text == "candra@candra.com" &&
+                    passController.text == '12345678') {
+                  //Simpan Session
+                  srorage.setBool('pernah_login', true);
+
                   //Arahkan ke ListScreen
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ListScreen(),
+                      ));
 
                   setState(() {
                     isLoginProcessing = false;
@@ -68,8 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   setState(() {
                     isLoginProcessing = false;
                   });
+                  srorage.setBool('pernah_login', false);
 
-                  //Munculin Snackbar
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('Login Gagal')));
                 }
 
                 //Jika tidak, maka muncul snackbar
