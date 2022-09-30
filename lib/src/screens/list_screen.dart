@@ -10,6 +10,9 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   //Buat variable untuk tahu posisi bottom nav bar yang nyala
 
+  //Inisialisasi Storage/ Shared Preference
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+
   int bottomNavBarIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -18,9 +21,21 @@ class _ListScreenState extends State<ListScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          title: Text(
-        'List Kontak',
-      )),
+        title: Text('List Kontak'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                SharedPreferences storage = await prefs;
+                if (storage.getBool('pernah_login') == true) {
+                  storage.clear().then((value) {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  });
+                }
+              },
+              icon: Icon(Icons.logout))
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: bottomNavBarIndex,
         onTap: (value) {
