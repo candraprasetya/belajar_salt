@@ -9,7 +9,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Belajar Dengan SALT',
-      home: LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }
