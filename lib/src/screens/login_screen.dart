@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ButtonWidget(
             onPressed: () async {
               //Untuk init si storage
-              final SharedPreferences srorage = await prefs;
+              final SharedPreferences storage = await prefs;
 
               setState(() {
                 isLoginProcessing = true;
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (emailController.text == "candra@candra.com" &&
                     passController.text == '12345678') {
                   //Simpan Session
-                  srorage.setBool('pernah_login', true);
+                  storage.setBool('pernah_login', true);
 
                   //Arahkan ke ListScreen
                   Navigator.pushReplacement(
@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   setState(() {
                     isLoginProcessing = false;
                   });
-                  srorage.setBool('pernah_login', false);
+                  storage.setBool('pernah_login', false);
 
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text('Login Gagal')));
