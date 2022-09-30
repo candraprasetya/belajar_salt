@@ -1,0 +1,85 @@
+part of 'screens.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  //Menambahkan 2 TextEditingController (Email dan Password)
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+
+  //Tambahkan 1 boolean untuk login proses
+  bool isLoginProcessing = false;
+
+  Widget _buildTextField(String hint, TextEditingController newController,
+      {bool isPassword = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: TextField(
+        controller: newController,
+        keyboardType: isPassword
+            ? TextInputType.visiblePassword
+            : TextInputType.emailAddress,
+        obscureText: isPassword ? true : false,
+        decoration: InputDecoration(hintText: hint),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Login',
+            style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+                fontSize: 36),
+          ),
+          const SizedBox(height: 24),
+          _buildTextField('Email', emailController),
+          _buildTextField('Password', passController, isPassword: true),
+          const SizedBox(height: 24),
+          ButtonWidget(
+            onPressed: () {
+              setState(() {
+                isLoginProcessing = true;
+              });
+
+              Future.delayed(const Duration(milliseconds: 3000), () {
+                //Jika emailnya adalah nama@gmail.com dan passwordnya 12345678
+                //Maka diarahkan ke ListScreen
+                if (emailController.text == "email kamu" &&
+                    passController.text == 'password kamu') {
+                  //Arahkan ke ListScreen
+
+                  setState(() {
+                    isLoginProcessing = false;
+                  });
+                } else {
+                  setState(() {
+                    isLoginProcessing = false;
+                  });
+
+                  //Munculin Snackbar
+                }
+
+                //Jika tidak, maka muncul snackbar
+              });
+            },
+            isLoading: isLoginProcessing,
+            caption: 'Login',
+          )
+        ],
+      ),
+    );
+  }
+}
