@@ -1,11 +1,6 @@
-import 'dart:html';
-import 'dart:math';
-
 import 'package:belajar_flutter/src/models/models.dart';
 import 'package:belajar_flutter/src/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'home_screen.dart';
