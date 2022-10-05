@@ -9,11 +9,22 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   //Buat variable untuk tahu posisi bottom nav bar yang nyala
-
   //Inisialisasi Storage/ Shared Preference
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-
+  String nama = '';
   int bottomNavBarIndex = 0;
+
+  void ubahNama() {
+    setState(() {
+      nama = "Candra";
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     //posisi index = 0
@@ -21,14 +32,15 @@ class _ListScreenState extends State<ListScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('List Kontak'),
+        title: Text(nama),
         actions: [
+          IconButton(onPressed: ubahNama, icon: Icon(Icons.person)),
           IconButton(
               onPressed: () async {
                 SharedPreferences storage = await prefs;
                 if (storage.getBool('pernah_login') == true) {
                   storage.clear().then((value) {
-                    Navigator.pushReplacement(context,
+                    Navigator.push(context,
                         MaterialPageRoute(builder: (context) => LoginScreen()));
                   });
                 }

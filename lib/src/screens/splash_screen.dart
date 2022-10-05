@@ -22,7 +22,9 @@ class _SplashScreenState extends State<SplashScreen> {
     final SharedPreferences storage = await prefs;
     if (storage.getBool('pernah_login') == true) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ListScreen()));
+          context,
+          MaterialPageRoute(
+              builder: (context) => LifecycleWidget(child: ListScreen())));
     } else {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginScreen()));
