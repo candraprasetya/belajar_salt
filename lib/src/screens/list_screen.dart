@@ -11,7 +11,6 @@ class _ListScreenState extends State<ListScreen> {
   //Buat variable untuk tahu posisi bottom nav bar yang nyala
   //Inisialisasi Storage/ Shared Preference
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-  final future = http.get(Uri.parse("https://google.com"));
 
   String nama = '';
   int bottomNavBarIndex = 0;
@@ -21,17 +20,6 @@ class _ListScreenState extends State<ListScreen> {
       nama = "Candra";
       print('Tahu Bulat');
     });
-  }
-
-  void getResponse() async {
-    final response = await future;
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Sukses Login')));
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error Login')));
-    }
   }
 
   @override
@@ -90,13 +78,27 @@ class GridProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      children: products
-          .map((e) => ProductWidget(
-                product: e,
-              ))
-          .toList(),
+    return FutureBuilder<http.Response>(
+      future: http.get(Uri.parse("https://fakestoreapi.com/products")),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.hasData) {
+          final products = productModelFromJson(snapshot.data!.body);
+          return GridView.count(
+            crossAxisCount: 2,
+            children: products
+                .map((e) => ProductWidget(
+                      product: e,
+                    ))
+                .toList(),
+          );
+        }
+        return Container();
+      },
     );
   }
 }
@@ -108,12 +110,25 @@ class ListProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: contacts.length,
-      itemBuilder: (context, index) {
-        return ContactWidget(
-          data: contacts[index],
-        );
+    return FutureBuilder<http.Response>(
+      future: http.get(Uri.parse("https://fakestoreapi.com/products")),
+      builder: (context, snapshot) {
+        //Widget ketika loading
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        //Widget ketika datanya di load
+        if (snapshot.hasData) {
+          final products = productModelFromJson(snapshot.data!.body);
+          return ListView.builder(
+            itemCount: products.length,
+            itemBuilder: (context, index) =>
+                ProductWidget(product: products[index]),
+          );
+        }
+        return Container();
       },
     );
   }

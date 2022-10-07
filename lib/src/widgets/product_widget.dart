@@ -16,16 +16,16 @@ class ProductWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //Image Network
-              Image.network(product.imageUrl!),
+              Image.network(product.image!),
 
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
                     //Text Nama Produk
-                    Text(product.productName!),
+                    Text(product.title!),
                     //Text Harga
-                    Text("Rp.${product.productPrice!}")
+                    Text("Rp.${product.price!}")
                   ],
                 ),
               )
