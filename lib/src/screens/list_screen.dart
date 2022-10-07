@@ -11,17 +11,32 @@ class _ListScreenState extends State<ListScreen> {
   //Buat variable untuk tahu posisi bottom nav bar yang nyala
   //Inisialisasi Storage/ Shared Preference
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  final future = http.get(Uri.parse("https://google.com"));
+
   String nama = '';
   int bottomNavBarIndex = 0;
 
   void ubahNama() {
     setState(() {
       nama = "Candra";
+      print('Tahu Bulat');
     });
+  }
+
+  void getResponse() async {
+    final response = await future;
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Sukses Login')));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error Login')));
+    }
   }
 
   @override
   void initState() {
+    // getResponse();
     super.initState();
   }
 
