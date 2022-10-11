@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
-          children: [],
+          children: const [],
         ),
       ),
     ));

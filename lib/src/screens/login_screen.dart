@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ListScreen(),
+                        builder: (context) => const ListScreen(),
                       ));
 
                   setState(() {
@@ -82,8 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
                   storage.setBool('pernah_login', false);
 
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('Login Gagal')));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Login Gagal')));
                 }
 
                 //Jika tidak, maka muncul snackbar

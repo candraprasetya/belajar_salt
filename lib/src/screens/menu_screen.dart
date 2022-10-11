@@ -12,10 +12,12 @@ class MenuScreen extends StatelessWidget {
         children: [
           ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeScreen()));
               },
-              child: Text('Go To Home'))
+              child: const Text('Go To Home'))
         ],
       ),
     );

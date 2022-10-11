@@ -23,10 +23,9 @@ class _LifecycleWidgetState extends State<LifecycleWidget>
   //DONE: Kita tambahakan didChangeAppLifecycleState
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // TODO: implement didChangeAppLifecycleState
-    print('AppLifecycleState: $state');
+    //print('AppLifecycleState: $state');
     if (state == AppLifecycleState.resumed) {
-      print('KAMU JELEK!!!');
+      //print('KAMU JELEK!!!');
     }
     super.didChangeAppLifecycleState(state);
   }

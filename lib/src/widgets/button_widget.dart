@@ -24,7 +24,7 @@ class ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            primary: Colors.pink[800], //Warna Utama
+            backgroundColor: Colors.pink[800], //Warna Utama
             elevation:
                 0.0, //Elevasi atau ketinggian button dari screen (shadow)
           ),

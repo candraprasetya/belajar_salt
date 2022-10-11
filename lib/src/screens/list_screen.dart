@@ -18,7 +18,7 @@ class _ListScreenState extends State<ListScreen> {
   void ubahNama() {
     setState(() {
       nama = "Candra";
-      print('Tahu Bulat');
+      //print('Tahu Bulat');
     });
   }
 
@@ -37,18 +37,20 @@ class _ListScreenState extends State<ListScreen> {
       appBar: AppBar(
         title: Text(nama),
         actions: [
-          IconButton(onPressed: ubahNama, icon: Icon(Icons.person)),
+          IconButton(onPressed: ubahNama, icon: const Icon(Icons.person)),
           IconButton(
               onPressed: () async {
                 SharedPreferences storage = await prefs;
                 if (storage.getBool('pernah_login') == true) {
                   storage.clear().then((value) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()));
                   });
                 }
               },
-              icon: Icon(Icons.logout))
+              icon: const Icon(Icons.logout))
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -58,7 +60,7 @@ class _ListScreenState extends State<ListScreen> {
             bottomNavBarIndex = value;
           });
         },
-        items: [
+        items: const [
           //Index ke 0
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'ListView'),
           //Index ke 1
@@ -82,7 +84,7 @@ class GridProduct extends StatelessWidget {
       future: http.get(Uri.parse("https://fakestoreapi.com/products")),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -115,7 +117,7 @@ class ListProduct extends StatelessWidget {
       builder: (context, snapshot) {
         //Widget ketika loading
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
