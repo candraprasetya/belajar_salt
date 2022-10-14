@@ -11,20 +11,39 @@ class _ListScreenState extends State<ListScreen> {
   //Buat variable untuk tahu posisi bottom nav bar yang nyala
   //Inisialisasi Storage/ Shared Preference
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  NotificationService notifService = NotificationService();
+
+  Future<dynamic> onReceiveNotif(int id, String? title, String? body) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title!),
+          content: Text(body!),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Kamu Mendapatkan $body')));
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   String nama = '';
   int bottomNavBarIndex = 0;
 
-  void ubahNama() {
-    setState(() {
-      nama = "Candra";
-      //print('Tahu Bulat');
-    });
+  void showNotif() {
+    notifService.showNotif('Tahu BUlat GRATISSS');
   }
 
   @override
   void initState() {
-    // getResponse();
+    notifService.init((p0, p1, p2, p3) => onReceiveNotif(p0, p1, p3));
     super.initState();
   }
 
@@ -37,7 +56,7 @@ class _ListScreenState extends State<ListScreen> {
       appBar: AppBar(
         title: Text(nama),
         actions: [
-          IconButton(onPressed: ubahNama, icon: const Icon(Icons.person)),
+          IconButton(onPressed: showNotif, icon: const Icon(Icons.person)),
           IconButton(
               onPressed: () async {
                 SharedPreferences storage = await prefs;
