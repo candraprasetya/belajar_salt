@@ -38,8 +38,10 @@ class _ListScreenState extends State<ListScreen> {
   int bottomNavBarIndex = 0;
 
   void showNotif() {
-    notifService.showNotif('Ada Promo nich buat kamu',
+    notifService.showNotifBirthday('Ada Promo nich buat kamu',
         'Mens Casual Slim Fit yang kamu inginkan turun harga 70%', '3');
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Notif akan muncul setelah 10 detik')));
   }
 
   void onDidReceiveNotificationResponse(

@@ -23,6 +23,8 @@ class NotificationService {
     final InitializationSettings initSetting =
         InitializationSettings(android: androidSettings, iOS: iosSettings);
 
+    tz.initializeTimeZones();
+
     initLocalNotif(initSetting, onDidReceiveNotificationResponse);
   }
 
@@ -44,7 +46,25 @@ class NotificationService {
         payload: idProduct);
   }
 
-  //TODO: Scheduled Notif Birthday
+  void showNotifBirthday(String title, String message, String idProduct) async {
+    AndroidNotificationDetails androidNotifDetail =
+        const AndroidNotificationDetails(channelId, 'Belajar Salt',
+            playSound: true);
+
+    DarwinNotificationDetails iosNotifDetail = DarwinNotificationDetails();
+
+    await localNotif.zonedSchedule(
+      12345,
+      title,
+      message,
+      tz.TZDateTime.now(tz.local).add(Duration(seconds: 10)),
+      NotificationDetails(android: androidNotifDetail, iOS: iosNotifDetail),
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidAllowWhileIdle: true,
+      payload: idProduct,
+    );
+  }
 
   //TODO: Cancel Notif
 
