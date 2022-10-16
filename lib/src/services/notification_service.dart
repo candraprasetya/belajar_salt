@@ -1,11 +1,14 @@
 part of 'services.dart';
 
 class NotificationService {
+  //Variable
   late FlutterLocalNotificationsPlugin localNotif =
       FlutterLocalNotificationsPlugin();
 
+  // Function yang fungsinya untuk menginisialiasi
   void init(
-      Future<dynamic> Function(int, String?, String?, String?)? onDidReceive) {
+      Future<dynamic> Function(int, String?, String?, String?)? onDidReceive,
+      Function(NotificationResponse)? onDidReceiveNotificationResponse) {
     final AndroidInitializationSettings androidSettings =
         AndroidInitializationSettings(appIcon);
 
@@ -20,22 +23,25 @@ class NotificationService {
     final InitializationSettings initSetting =
         InitializationSettings(android: androidSettings, iOS: iosSettings);
 
-    initLocalNotif(initSetting);
+    initLocalNotif(initSetting, onDidReceiveNotificationResponse);
   }
 
-  void initLocalNotif(InitializationSettings initSetting) async {
-    await localNotif.initialize(initSetting);
+  void initLocalNotif(InitializationSettings initSetting,
+      Function(NotificationResponse)? onDidReceiveNotificationResponse) async {
+    await localNotif.initialize(initSetting,
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
   }
 
-  void showNotif(String message) async {
+  void showNotif(String title, String message, String idProduct) async {
     AndroidNotificationDetails androidNotifDetail =
         const AndroidNotificationDetails(channelId, 'Belajar Salt',
             playSound: true);
 
-    // DarwinNotificationDetails iosNotifDetail = DarwinNotificationDetails();
+    DarwinNotificationDetails iosNotifDetail = DarwinNotificationDetails();
 
-    await localNotif.show(12345, "Hallo", message,
-        NotificationDetails(android: androidNotifDetail));
+    await localNotif.show(12345, title, message,
+        NotificationDetails(android: androidNotifDetail, iOS: iosNotifDetail),
+        payload: idProduct);
   }
 
   //TODO: Scheduled Notif Birthday

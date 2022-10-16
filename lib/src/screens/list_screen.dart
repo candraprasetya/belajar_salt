@@ -38,12 +38,44 @@ class _ListScreenState extends State<ListScreen> {
   int bottomNavBarIndex = 0;
 
   void showNotif() {
-    notifService.showNotif('Tahu BUlat GRATISSS');
+    notifService.showNotif('Ada Promo nich buat kamu',
+        'Mens Casual Slim Fit yang kamu inginkan turun harga 70%', '3');
+  }
+
+  void onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) async {
+    final String? payload = notificationResponse.payload;
+    if (notificationResponse.payload != null) {
+      debugPrint('notification payload: $payload');
+    }
+    //Fungsi menampilkan alert
+    // showDialog(
+    //     context: context,
+    //     builder: (context) => AlertDialog(
+    //           title: Text('Kamu Cantik'),
+    //           actions: [
+    //             TextButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context);
+    //                 },
+    //                 child: Text('Close'))
+    //           ],
+    //         ));
+
+    //Fungsi masuk ke halaman detail
+    await Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+          builder: (context) => DetailProductScreen(
+                productId: int.parse(payload!),
+              )),
+    );
   }
 
   @override
   void initState() {
-    notifService.init((p0, p1, p2, p3) => onReceiveNotif(p0, p1, p3));
+    notifService.init((p0, p1, p2, p3) => onReceiveNotif(p0, p1, p3),
+        onDidReceiveNotificationResponse);
     super.initState();
   }
 
