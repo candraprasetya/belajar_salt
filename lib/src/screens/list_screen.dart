@@ -76,6 +76,7 @@ class _ListScreenState extends State<ListScreen> {
 
   @override
   void initState() {
+    BlocProvider.of<ProductBloc>(context).add(FetchProductFromAPI());
     notifService.init((p0, p1, p2, p3) => onReceiveNotif(p0, p1, p3),
         onDidReceiveNotificationResponse);
     super.initState();
@@ -85,45 +86,52 @@ class _ListScreenState extends State<ListScreen> {
   Widget build(BuildContext context) {
     //posisi index = 0
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(nama),
-        actions: [
-          IconButton(onPressed: showNotif, icon: const Icon(Icons.person)),
-          IconButton(
-              onPressed: () async {
-                SharedPreferences storage = await prefs;
-                if (storage.getBool('pernah_login') == true) {
-                  storage.clear().then((value) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen()));
-                  });
-                }
-              },
-              icon: const Icon(Icons.logout))
-        ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        BlocProvider.of<ProductBloc>(context).add(FetchProductFromAPI());
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(nama),
+          actions: [
+            IconButton(onPressed: showNotif, icon: const Icon(Icons.person)),
+            IconButton(
+                onPressed: () async {
+                  SharedPreferences storage = await prefs;
+                  if (storage.getBool('pernah_login') == true) {
+                    storage.clear().then((value) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()));
+                    });
+                  }
+                },
+                icon: const Icon(Icons.logout))
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: bottomNavBarIndex,
+          onTap: (value) {
+            setState(() {
+              bottomNavBarIndex = value;
+            });
+          },
+          items: const [
+            //Index ke 0
+            BottomNavigationBarItem(icon: Icon(Icons.list), label: 'ListView'),
+            //Index ke 1
+            BottomNavigationBarItem(
+                icon: Icon(Icons.grid_3x3), label: 'GridView'),
+          ],
+        ),
+        body:
+            // Perbandingan                 //Nilai True          //Nilai False
+            (bottomNavBarIndex == 0)
+                ? const ListProduct()
+                : const GridProduct(),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: bottomNavBarIndex,
-        onTap: (value) {
-          setState(() {
-            bottomNavBarIndex = value;
-          });
-        },
-        items: const [
-          //Index ke 0
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'ListView'),
-          //Index ke 1
-          BottomNavigationBarItem(
-              icon: Icon(Icons.grid_3x3), label: 'GridView'),
-        ],
-      ),
-      body:
-          // Perbandingan                 //Nilai True          //Nilai False
-          (bottomNavBarIndex == 0) ? const ListProduct() : const GridProduct(),
     );
   }
 }
@@ -133,23 +141,21 @@ class GridProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<http.Response>(
-      future: http.get(Uri.parse("https://fakestoreapi.com/products")),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+    return BlocConsumer<ProductBloc, ProductState>(
+      listener: (context, state) {
+        if (state is ProductIsFailed) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.message)));
         }
-        if (snapshot.hasData) {
-          final products = productModelFromJson(snapshot.data!.body);
+      },
+      builder: (context, state) {
+        if (state is ProductIsLoading) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (state is ProductIsSuccess) {
           return GridView.count(
             crossAxisCount: 2,
-            children: products
-                .map((e) => ProductWidget(
-                      product: e,
-                    ))
-                .toList(),
+            children: state.data.map((e) => ProductWidget(product: e)).toList(),
           );
         }
         return Container();
@@ -159,28 +165,27 @@ class GridProduct extends StatelessWidget {
 }
 
 class ListProduct extends StatelessWidget {
-  const ListProduct({
-    Key? key,
-  }) : super(key: key);
+  const ListProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<http.Response>(
-      future: http.get(Uri.parse("https://fakestoreapi.com/products")),
-      builder: (context, snapshot) {
-        //Widget ketika loading
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+    return BlocConsumer<ProductBloc, ProductState>(
+      listener: (context, state) {
+        if (state is ProductIsFailed) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.message)));
         }
-        //Widget ketika datanya di load
-        if (snapshot.hasData) {
-          final products = productModelFromJson(snapshot.data!.body);
+      },
+      builder: (context, state) {
+        if (state is ProductIsLoading) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (state is ProductIsSuccess) {
           return ListView.builder(
-            itemCount: products.length,
-            itemBuilder: (context, index) =>
-                ProductWidget(product: products[index]),
+            itemCount: state.data.length,
+            itemBuilder: (context, index) {
+              return ProductWidget(product: state.data[index]);
+            },
           );
         }
         return Container();
