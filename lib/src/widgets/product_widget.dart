@@ -8,11 +8,10 @@ class ProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    DetailProductScreen(productId: product.id!)));
+        BlocProvider.of<ProductDetailBloc>(context)
+            .add(FetchProductDetail(product.id!));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DetailProductScreen()));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

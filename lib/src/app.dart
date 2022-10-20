@@ -10,9 +10,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => ProductBloc(),
-        ),
+        BlocProvider(create: (context) => ProductBloc()),
+        BlocProvider(create: (context) => ProductDetailBloc()),
       ],
       child: const MaterialApp(
         title: 'Belajar Dengan SALT',

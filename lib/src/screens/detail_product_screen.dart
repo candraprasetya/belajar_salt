@@ -1,34 +1,31 @@
 part of 'screens.dart';
 
 class DetailProductScreen extends StatelessWidget {
-  final int productId;
-
-  const DetailProductScreen({super.key, required this.productId});
+  const DetailProductScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Detail Produk'),
-      ),
-      body: FutureBuilder<http.Response>(
-          future: http
-              .get(Uri.parse("https://fakestoreapi.com/products/$productId")),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+        appBar: AppBar(
+          title: const Text('Detail Produk'),
+        ),
+        body: BlocConsumer<ProductDetailBloc, ProductDetailState>(
+          listener: (context, state) {
+            if (state is ProductDetailIsFailed) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.message)));
             }
-            if (snapshot.hasData) {
-              final detailProduct =
-                  detailProductModelFromJson(snapshot.data!.body);
-              return DetailProductWidget(
-                detailProduct: detailProduct,
-              );
+          },
+          builder: (context, state) {
+            if (state is ProductDetailIsLoading) {
+              return Center(child: CircularProgressIndicator());
             }
+            if (state is ProductDetailIsSuccess) {
+              return DetailProductWidget(detailProduct: state.model);
+            }
+
             return Container();
-          }),
-    );
+          },
+        ));
   }
 }

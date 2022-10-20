@@ -65,13 +65,10 @@ class _ListScreenState extends State<ListScreen> {
     //         ));
 
     //Fungsi masuk ke halaman detail
-    await Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-          builder: (context) => DetailProductScreen(
-                productId: int.parse(payload!),
-              )),
-    );
+    BlocProvider.of<ProductDetailBloc>(context)
+        .add(FetchProductDetail(int.parse(payload!)));
+    await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => DetailProductScreen()));
   }
 
   @override
