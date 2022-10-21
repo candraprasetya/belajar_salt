@@ -1,58 +1,47 @@
 part of 'screens.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-
-  @override
-  void initState() {
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      checkLogin();
-    });
-    super.initState();
-  }
-
-  Future<void> checkLogin() async {
-    final SharedPreferences storage = await prefs;
-    if (storage.getBool('pernah_login') == true) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  const LifecycleWidget(child: ListScreen())));
-    } else {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()));
-    }
-  }
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Salt E-Commmerce',
-              style: TextStyle(
-                  color: Colors.pink[800], fontWeight: FontWeight.bold),
+    return BlocProvider(
+      create: (context) => CheckLoginCubit()..checkLogin(),
+      child: BlocConsumer<CheckLoginCubit, CheckLoginState>(
+        listener: (context, state) {
+          if (state is CheckLoginIsSuccess) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const ListScreen()));
+          } else if (state is CheckLoginIsFailed) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.message)));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()));
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Salt E-Commmerce',
+                    style: TextStyle(
+                        color: Colors.pink[800], fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.pink[800]),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(
-              height: 24,
-            ),
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Colors.pink[800]),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
