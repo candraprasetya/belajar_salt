@@ -39,24 +39,32 @@ class _DetailProductWidgetState extends State<DetailProductWidget> {
           ),
           Text("Rp.${widget.detailProduct.price!}"),
           Text("Rp.${widget.detailProduct.description!}"),
-          Row(
-            children: colors.map((e) {
-              int index = colors.indexOf(e);
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    changeColor(index);
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    width: (index == selectedIndex) ? 40 : 24,
-                    height: (index == selectedIndex) ? 40 : 24,
-                    color: e,
-                  ),
-                ),
+          BlocBuilder<cubit.ColorSelectCubit, cubit.ColorSelectState>(
+            builder: (context, state) {
+              return Row(
+                children: colors.map((e) {
+                  int index = colors.indexOf(e);
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        BlocProvider.of<cubit.ColorSelectCubit>(context)
+                            .changeColor(index);
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        width: (index ==
+                                (state as cubit.ColorSelectIsSelected).index)
+                            ? 40
+                            : 24,
+                        height: (index == state.index) ? 40 : 24,
+                        color: e,
+                      ),
+                    ),
+                  );
+                }).toList(),
               );
-            }).toList(),
+            },
           )
         ],
       ),

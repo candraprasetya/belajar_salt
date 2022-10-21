@@ -1,4 +1,5 @@
 import 'package:belajar_flutter/src/blocs/blocs.dart';
+import 'package:belajar_flutter/src/cubits/cubits.dart' as cubit;
 import 'package:belajar_flutter/src/models/models.dart';
 import 'package:belajar_flutter/src/screens/screens.dart';
 import 'package:flutter/material.dart';

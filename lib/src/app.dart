@@ -14,6 +14,8 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => ProductBloc()),
         BlocProvider(create: (context) => ProductDetailBloc()),
         BlocProvider(create: (context) => CheckLoginCubit()),
+        BlocProvider(create: (context) => ColorSelectBloc()),
+        BlocProvider(create: (context) => ColorSelectCubit()),
       ],
       child: const MaterialApp(
         title: 'Belajar Dengan SALT',
