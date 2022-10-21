@@ -1,44 +1,31 @@
 part of 'widgets.dart';
 
-class DetailProductWidget extends StatefulWidget {
+class DetailProductWidget extends StatelessWidget {
   final DetailProductModel detailProduct;
 
   const DetailProductWidget({super.key, required this.detailProduct});
 
   @override
-  State<DetailProductWidget> createState() => _DetailProductWidgetState();
-}
-
-class _DetailProductWidgetState extends State<DetailProductWidget> {
-  List<Color> colors = [Colors.blue, Colors.red, Colors.black];
-
-  int selectedIndex = 0;
-
-  void changeColor(int newIndex) {
-    setState(() {
-      selectedIndex = newIndex;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    List<Color> colors = [Colors.blue, Colors.red, Colors.black];
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Hero(
-              tag: widget.detailProduct.id!,
-              child: Image.network(widget.detailProduct.image!)),
+              tag: detailProduct.id!,
+              child: Image.network(detailProduct.image!)),
           const SizedBox(
             height: 24,
           ),
           Text(
-            widget.detailProduct.title!,
+            detailProduct.title!,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          Text("Rp.${widget.detailProduct.price!}"),
-          Text("Rp.${widget.detailProduct.description!}"),
+          Text("Rp.${detailProduct.price!}"),
+          Text("Rp.${detailProduct.description!}"),
           BlocBuilder<cubit.ColorSelectCubit, cubit.ColorSelectState>(
             builder: (context, state) {
               return Row(
