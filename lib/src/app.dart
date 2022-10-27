@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:belajar_flutter/src/blocs/blocs.dart';
 import 'package:belajar_flutter/src/cubits/cubits.dart';
 import 'package:belajar_flutter/src/screens/screens.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,10 +20,15 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => ColorSelectBloc()),
         BlocProvider(create: (context) => ColorSelectCubit()),
       ],
-      child: const MaterialApp(
-        title: 'Belajar Dengan SALT',
-        home: SplashScreen(),
-      ),
+      child: (Platform.isAndroid)
+          ? const MaterialApp(
+              title: 'Belajar Dengan SALT',
+              home: SplashScreen(),
+            )
+          : const CupertinoApp(
+              title: 'Belajar Dengan SALT - iOS',
+              home: SplashScreen(),
+            ),
     );
   }
 }

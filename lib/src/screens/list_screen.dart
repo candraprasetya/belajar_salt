@@ -83,56 +83,71 @@ class _ListScreenState extends State<ListScreen> {
   Widget build(BuildContext context) {
     //posisi index = 0
 
-    return RefreshIndicator(
-      onRefresh: () async {
-        BlocProvider.of<ProductBloc>(context).add(FetchProductFromAPI());
-      },
-      child: BlocListener<CheckLoginCubit, CheckLoginState>(
-        listener: (context, state) {
-          if (state is CheckLoginIsLoggedOut) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Berhasil Log Out")));
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()));
-          }
-        },
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            title: Text(nama),
-            actions: [
-              IconButton(onPressed: showNotif, icon: const Icon(Icons.person)),
-              IconButton(
-                  onPressed: () {
-                    context.read<CheckLoginCubit>().logout();
-                  },
-                  icon: const Icon(Icons.logout))
-            ],
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: bottomNavBarIndex,
-            onTap: (value) {
-              setState(() {
-                bottomNavBarIndex = value;
-              });
-            },
-            items: const [
-              //Index ke 0
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.list), label: 'ListView'),
-              //Index ke 1
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.grid_3x3), label: 'GridView'),
-            ],
-          ),
-          body:
-              // Perbandingan                 //Nilai True          //Nilai False
-              (bottomNavBarIndex == 0)
-                  ? const ListProduct()
-                  : const GridProduct(),
-        ),
+    return (Platform.isAndroid) ? _buildAndroidPage() : _buildIosPage();
+  }
+
+  Widget _buildIosPage() {
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text(nama),
       ),
+      child:
+          (bottomNavBarIndex == 0) ? const ListProduct() : const GridProduct(),
     );
+  }
+
+  Widget _buildAndroidPage() {
+    return RefreshIndicator(
+        onRefresh: () async {
+          BlocProvider.of<ProductBloc>(context).add(FetchProductFromAPI());
+        },
+        child: BlocListener<CheckLoginCubit, CheckLoginState>(
+            listener: (context, state) {
+              if (state is CheckLoginIsLoggedOut) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Berhasil Log Out")));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
+              }
+            },
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                title: Text(nama),
+                actions: [
+                  IconButton(
+                      onPressed: showNotif, icon: const Icon(Icons.person)),
+                  IconButton(
+                      onPressed: () {
+                        context.read<CheckLoginCubit>().logout();
+                      },
+                      icon: const Icon(Icons.logout))
+                ],
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: bottomNavBarIndex,
+                onTap: (value) {
+                  setState(() {
+                    bottomNavBarIndex = value;
+                  });
+                },
+                items: const [
+                  //Index ke 0
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.list), label: 'ListView'),
+                  //Index ke 1
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.grid_3x3), label: 'GridView'),
+                ],
+              ),
+              body:
+                  // Perbandingan                 //Nilai True          //Nilai False
+                  (bottomNavBarIndex == 0)
+                      ? const ListProduct()
+                      : const GridProduct(),
+            )));
   }
 }
 
