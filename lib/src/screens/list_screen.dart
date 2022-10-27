@@ -89,8 +89,15 @@ class _ListScreenState extends State<ListScreen> {
   Widget _buildIosPage() {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text(nama),
-      ),
+          middle: const Text('Belajar SALT - iOS'),
+          trailing: GestureDetector(
+            child: Text(
+              'Log Out',
+              style: TextStyle(
+                color: CupertinoColors.systemRed,
+              ),
+            ),
+          )),
       child:
           (bottomNavBarIndex == 0) ? const ListProduct() : const GridProduct(),
     );
@@ -134,19 +141,15 @@ class _ListScreenState extends State<ListScreen> {
                   });
                 },
                 items: const [
-                  //Index ke 0
                   BottomNavigationBarItem(
                       icon: Icon(Icons.list), label: 'ListView'),
-                  //Index ke 1
                   BottomNavigationBarItem(
                       icon: Icon(Icons.grid_3x3), label: 'GridView'),
                 ],
               ),
-              body:
-                  // Perbandingan                 //Nilai True          //Nilai False
-                  (bottomNavBarIndex == 0)
-                      ? const ListProduct()
-                      : const GridProduct(),
+              body: (bottomNavBarIndex == 0)
+                  ? const ListProduct()
+                  : const GridProduct(),
             )));
   }
 }
